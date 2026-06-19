@@ -1,7 +1,7 @@
-from langchaincommunity.document_loaders import PyPDFDirectoryLoader
-from langchaincommunity.text_splitters import RecursiveCharacterTextSplitter
-from langchaincommunity.embeddings import OpenAIEmbeddings
-from langchaincommunity.vectorstores import Chroma
+from langchain_community.document_loaders import PyPDFDirectoryLoader
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_ollama import OllamaEmbeddings
+from langchain_community.vectorstores import Chroma
 
 ## Load all PDFs from docs
 loader = PyPDFDirectoryLoader("docs/")
@@ -12,7 +12,7 @@ text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=20
 chunks = text_splitter.split_documents(documents)
 
 ## Create embeddings and store in ChromaDB
-embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
+embeddings = OllamaEmbeddings(model="text-embedding-3-small")
 vectorstore = Chroma.from_documents(chunks, embeddings, persist_directory="vectorstore")
 print(f"Ingested {len(chunks)} chunks into vector store.")
 
